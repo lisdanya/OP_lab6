@@ -1,115 +1,161 @@
+# для решения математических формул
 import math
+# для наглядности реализации абстрактного класса и метода
+from abc import ABC, abstractmethod
 
 
-class Figure:
+# базовый абстрактный класс
+class Figure(ABC):
 
+    # Элементы-данные фигур
     def __init__(self, r, h, s_r):
-        self.radius = r
-        self.height = h
-        self.s_radius = s_r
+        self.r = r
+        self.h = h
+        self.s_r = s_r
 
-    def getRadius(self):
-        return self.radius
+    # Виртуальный метод
+    @abstractmethod
+    def findAreaCone(self):
+        pass
 
-    def getHeight(self):
-        return self.height
+    # Виртуальный метод
+    @abstractmethod
+    def findVolumeCone(self):
+        pass
 
-    def getSRadius(self):
-        return self.s_radius
+    # Виртуальный метод
+    @abstractmethod
+    def findVolumeEllipticalCylinder(self):
+        pass
 
-    def findAreaCircle(self, r):
-        self.areaCircle = math.pi * r * r
-        return self.areaCircle
+    # Виртуальный метод
+    @abstractmethod
+    def findAreaEllipticalCylinder(self):
+        pass
 
-    def findAreaSideCone(self, r, h):
-        self.areaSideCone = math.pi * r * math.sqrt(r * r + h * h)
-        return self.areaSideCone
+    # Виртуальный метод
+    @abstractmethod
+    def findAreaCylinder(self):
+        pass
 
-    def findAreaSideCylinder(self, r, h):
-        self.areaSideCylinder = 2 * math.pi * r * h
-        return self.areaSideCylinder
-
-    def findAreaEllipse(self, s_radius, r):
-        self.areaEllipse = math.pi * s_radius * r
-        return self.areaEllipse
-
-    def findAreaSideEllipticalCylinder(self, r, s_radius, h):
-        self.areaSideEllipticalCylinder = h * 2 * math.pi * math.sqrt(
-            (r * r + s_radius * s_radius) / 2)
-        return self.areaSideEllipticalCylinder
+    # Виртуальный метод
+    @abstractmethod
+    def findVolumeCylinder(self):
+        pass
 
 
+# Наследник базового класса
 class Cone(Figure):
 
-    def findAreaCone(self, areaCircle, areaSideCone):
-        self.areaCone = areaCircle + areaSideCone
+    def findVolumeEllipticalCylinder(self):
+        pass
+
+    def findAreaEllipticalCylinder(self):
+        pass
+
+    def findAreaCylinder(self):
+        pass
+
+    def findVolumeCylinder(self):
+        pass
+
+    # формула вычесления площади
+    def findAreaCone(self):
+        self.areaCone = (math.pi * r * r) + (math.pi * r * math.sqrt(r * r + h * h))
         print(self.areaCone)
 
-    def findVolumeCone(self, r, h):
+    # формула вычесления обьема
+    def findVolumeCone(self):
         self.volumeCone = 1 / 3 * math.pi * r * r * h
         print(self.volumeCone)
 
 
+# Наследник базового класса
 class Cylinder(Figure):
 
-    def findAreaCylinder(self, areaCircle, areaSideCylinder):
-        self.areaCylinder = 2 * areaCircle + areaSideCylinder
+    def findAreaCone(self):
+        pass
+
+    def findVolumeCone(self):
+        pass
+
+    def findVolumeEllipticalCylinder(self):
+        pass
+
+    def findAreaEllipticalCylinder(self):
+        pass
+
+    # формула вычесления площади
+    def findAreaCylinder(self):
+        self.areaCylinder = 2 * (math.pi * r * r) + 2 * math.pi * r * h
         print(self.areaCylinder)
 
-    def findVolumeCylinder(self, areaCircle, h):
-        self.volumeCylinder = areaCircle * h
+    # формула вычесления обьема
+    def findVolumeCylinder(self):
+        self.volumeCylinder = (math.pi * r * r) * h
         print(self.volumeCylinder)
 
 
+# Наследник базового класса
 class EllipticalCylinder(Figure):
 
-    def findAreaEllipticalCylinder(self, areaEllips, areaSideEllipticalCylinder):
-        self.areaEllipticalCylinder = 2 * areaEllips + areaSideEllipticalCylinder
+    def findAreaCone(self):
+        pass
+
+    def findVolumeCone(self):
+        pass
+
+    def findAreaCylinder(self):
+        pass
+
+    def findVolumeCylinder(self):
+        pass
+
+    # формула вычесления площади
+    def findAreaEllipticalCylinder(self):
+        self.areaEllipticalCylinder = (2 * math.pi * s_r * r) + (h * 2 * math.pi * math.sqrt(
+            (r * r + s_r * s_r) / 2))
         print(self.areaEllipticalCylinder)
 
-    def findVolumeEllipticalCylinder(self, areaEllips, h):
-        self.volumeEllipticalCylinder = areaEllips * h
+    # формула вычесления обьема
+    def findVolumeEllipticalCylinder(self):
+        self.volumeEllipticalCylinder = (2 * math.pi * s_r * r) * h
         print(self.volumeEllipticalCylinder)
 
-
+# для фигир у которых нет меньшей полуоси
 s_r = 0
-coun=int(input("Для выбора КОНУСА введите 1 \n"
-               "Для выбора ЦИЛИНДРА введите 2 \n"
-               "Для выбора ЭЛЛИПТИЧЕСКОГО ЦИЛИНДРА введите 3 \n"))
+# выбор фигуры
+coun = int(input("Для выбора КОНУСА введите 1 \n"
+                 "Для выбора ЦИЛИНДРА введите 2 \n"
+                 "Для выбора ЭЛЛИПТИЧЕСКОГО ЦИЛИНДРА введите 3 \n"))
 
-
-if coun==1:
+if coun == 1:
     r = int(input("Радиус: "))
     h = int(input("Высота: "))
+    # экземпляр класса конус
     f1 = Cone(r, h, s_r)
     print("Площадь конуса")
-    f1.findAreaCone(f1.findAreaCircle(f1.getRadius()),
-                    f1.findAreaSideCone(f1.getRadius(), f1.getHeight()))
+    f1.findAreaCone()
     print("Объем конуса ")
-    f1.findVolumeCone(f1.getRadius(), f1.getHeight())
-elif coun==2:
+    f1.findVolumeCone()
+elif coun == 2:
     r = int(input("Радиус: "))
     h = int(input("Высота: "))
+    # экземпляр класса цилиндер
     f2 = Cylinder(r, h, s_r)
     print("Площадь цилиндра ")
-    f2.findAreaCylinder(f2.findAreaCircle(f2.getRadius()),
-                        f2.findAreaSideCylinder(f2.getRadius(), f2.getHeight()))
+    f2.findAreaCylinder()
     print("Объем цилиндра ")
-    f2.findVolumeCylinder(f2.findAreaCircle(f2.getRadius()), f2.getHeight())
-elif coun==3:
+    f2.findVolumeCylinder()
+elif coun == 3:
     r = int(input("Большая полуось: "))
     s_r = int(input("Меньшая полуось: "))
     h = int(input("Высота: "))
+    # экземпляр класса элиптический цилиндр
     f3 = EllipticalCylinder(r, h, s_r)
     print("Площадь эллиптического цилиндра ")
-    f3.findAreaEllipticalCylinder(f3.findAreaEllipse(f3.getRadius(), f3.getSRadius()),
-                                  f3.findAreaSideEllipticalCylinder(f3.getRadius(), f3.getSRadius(),
-                                                                    f3.getHeight()))
+    f3.findAreaEllipticalCylinder()
     print("Объем эллиптического цилиндра")
-    f3.findVolumeEllipticalCylinder(f3.findAreaEllipse(f3.getRadius(), f3.getSRadius()),
-                                    f3.getHeight())
-else: print("ERROR")
-
-
-
-
+    f3.findVolumeEllipticalCylinder()
+else:
+    print("ERROR")
